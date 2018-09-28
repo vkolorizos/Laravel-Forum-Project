@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CreateThreadsTest extends TestCase
@@ -18,6 +17,13 @@ class CreateThreadsTest extends TestCase
 		$thread = make('App\Thread');
 
 		$this->post('/threads', $thread->toArray());
+	}
+
+	/** @test */
+	function guests_cannot_see_the_create_thread_page()
+	{
+		$this->withExceptionHandling()->get('/threads/create')
+			->assertRedirect('login');
 	}
 
 	/** @test */
