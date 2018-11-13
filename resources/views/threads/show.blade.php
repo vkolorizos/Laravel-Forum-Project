@@ -5,12 +5,18 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="card mt-5">
-                    <div class="card-header">
-                        <h5>
+                    <div class="card-header d-flex justify-content-between">
+                        <span>
                             <a href="{{ route('profile', $thread->creator) }}">
                                 {{ $thread->creator->name }}
-                            </a> posted {{ $thread->title }}</div>
-                    </h5>
+                            </a> posted {{ $thread->title }}
+                        </span>
+                        <form action="{{ $thread->path() }}" method="POST">
+                            {{ csrf_field() }}
+                            {{ method_field('DELETE') }}
+                            <button type="submit" class="btn btn-link">Delete Thread</button>
+                        </form>
+                    </div>
 
                     <div class="card-body">
                         {{ $thread->body }}
@@ -44,7 +50,8 @@
 
                     <div class="card-body">
                         This thread was published {{ $thread->created_at->diffForHumans() }} by
-                        <a href="#">{{ $thread->creator->name }}</a>, and currently has
+                        <a href="{{ route('profile', $thread->creator) }}">
+                            {{ $thread->creator->name }}</a>, and currently has
                         {{ $thread->replies_count }} {{ str_plural('comment', $thread->replies_count) }}.
                     </div>
                 </div>

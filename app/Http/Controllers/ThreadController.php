@@ -26,7 +26,7 @@ class ThreadController extends Controller
 	{
 		$threads = $this->getThreads($channel, $filters);
 
-		if(request()->wantsJson()){
+		if (request()->wantsJson()) {
 			return $threads;
 		}
 
@@ -69,11 +69,11 @@ class ThreadController extends Controller
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param $channelId
+	 * @param $channel
 	 * @param  \App\Thread $thread
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show($channelId, Thread $thread)
+	public function show($channel, Thread $thread)
 	{
 		return view('threads.show', [
 			'thread' => $thread,
@@ -107,12 +107,21 @@ class ThreadController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 *
+	 * @param Channel $channel
 	 * @param  \App\Thread $thread
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy(Thread $thread)
+	public function destroy(Channel $channel, Thread $thread)
 	{
-		//
+		$thread->replies()->delete();
+		$thread->delete();
+
+		if(request()->wantsJson()) {
+			return response([], 204);
+		}
+
+		return redirect('/threads');
+
 	}
 
 	/**
