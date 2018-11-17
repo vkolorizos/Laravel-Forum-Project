@@ -20,7 +20,7 @@ class Thread extends Model
 	 *
 	 * @var array
 	 */
-	protected $with = ['creator','channel'];
+	protected $with = ['creator', 'channel'];
 
 	/**
 	 * Boot the model
@@ -33,8 +33,8 @@ class Thread extends Model
 			$builder->withCount('replies');
 		});
 
-		static::deleting(function($thread){
-			$thread->replies()->delete();
+		static::deleting(function ($thread) {
+			$thread->replies->each->delete();
 		});
 	}
 
