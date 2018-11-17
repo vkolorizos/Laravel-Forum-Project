@@ -17,6 +17,15 @@ class Activity extends Model
 		return $this->morphTo();
 	}
 
+
+	/**
+	 *
+	 * Returns the feed of a  user.
+	 * Default: 50 results
+	 * @param $user
+	 * @param int $take
+	 * @return mixed
+	 */
 	public static function feed($user, $take = 50)
 	{
 		return static::where('user_id', $user->id)

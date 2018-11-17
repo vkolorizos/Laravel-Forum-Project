@@ -19,7 +19,7 @@ class ThreadPolicy
      */
     public function view(User $user, Thread $thread)
     {
-        //
+		//
     }
 
     /**
