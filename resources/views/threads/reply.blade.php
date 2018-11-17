@@ -22,21 +22,15 @@
                 <div class="form-group">
                     <textarea class="form-control" v-model="body"></textarea>
                 </div>
-                <button class="btn btn-sm btn-primary" @click="update">Update</button>
-                <button class="btn btn-sm btn-link" @click="editing = false">Cancel</button>
+                <button class="btn btn-sm btn-primary mr-2" @click="update">Update</button>
+                <button class="btn btn-sm btn-link mr-2" @click="editing = false">Cancel</button>
             </div>
             <div v-else v-text="body"></div>
         </div>
         @can('update',$reply)
             <div class="card-footer d-flex">
                 <button class="btn btn-primary btn-sm mr-2" @click="editing = true">Edit</button>
-
-                <form method="POST" action="/replies/{{ $reply->id }}">
-                    {{ csrf_field() }}
-                    {{ method_field('DELETE') }}
-
-                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                </form>
+                <button class="btn btn-danger btn-sm mr-2" @click="destroy">Delete</button>
             </div>
         @endcan
     </div>
