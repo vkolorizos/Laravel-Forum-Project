@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -41,7 +40,7 @@ class User extends Authenticatable
 	/**
 	 * Returns all the latest threads of a user.
 	 *
-	 * @return $this
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */
 	public function threads()
 	{

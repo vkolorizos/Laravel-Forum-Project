@@ -39,7 +39,7 @@
 </script>
 
 
-<style>
+<style scoped>
     .alert-flash {
         position: fixed;
         bottom: 25px;

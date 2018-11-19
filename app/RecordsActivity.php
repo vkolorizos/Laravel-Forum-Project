@@ -34,6 +34,7 @@ trait RecordsActivity
 	/**
 	 * Records the activity of a model.
 	 * @param $event
+	 * @throws \ReflectionException
 	 */
 	protected function recordActivity($event)
 	{
@@ -56,6 +57,7 @@ trait RecordsActivity
 	 * Get the activity type out of the class name
 	 * @param $event
 	 * @return string
+	 * @throws \ReflectionException
 	 */
 	protected function getActivityType($event)
 	{
