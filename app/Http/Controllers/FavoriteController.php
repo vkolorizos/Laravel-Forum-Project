@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Reply;
-use App\Favorite;
-use Illuminate\Http\Request;
 
 class FavoriteController extends Controller
 {
@@ -15,10 +13,19 @@ class FavoriteController extends Controller
 
 	/**
 	 * @param Reply $reply
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function store(Reply $reply)
 	{
 		$reply->favorite();
 		return back();
+	}
+
+	/**
+	 * @param Reply $reply
+	 */
+	public function destroy(Reply $reply)
+	{
+		$reply->unfavorite();
 	}
 }

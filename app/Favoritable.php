@@ -6,6 +6,16 @@ namespace App;
 
 trait Favoritable
 {
+
+	protected static function bootFavoritable()
+	{
+		static::deleting(function ($model) {
+
+			$model->favorites->each(function ($favorite) {
+				$favorite->delete();
+			});
+		});
+	}
 	/**
 	 * Return the corresponding items that have been favored.
 	 *
@@ -30,6 +40,19 @@ trait Favoritable
 		}
 	}
 
+
+	/**
+	 * A user can unfavorite many items.
+	 *
+	 * @return mixed
+	 */
+	public function unfavorite()
+	{
+		$attributes = ['user_id' => auth()->id()];
+
+		$this->favorites()->where($attributes)->delete();
+	}
+
 	/**
 	 * Check whether an item is favorited.
 	 *
@@ -38,6 +61,16 @@ trait Favoritable
 	public function isFavorited()
 	{
 		return !!$this->favorites->where('user_id', auth()->id())->count();
+	}
+
+	/**
+	 * Get the count of the favorited items.
+	 *
+	 * @return mixed
+	 */
+	public function getIsFavoritedAttribute()
+	{
+		return $this->isFavorited();
 	}
 
 	/**

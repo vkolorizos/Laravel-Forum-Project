@@ -18,6 +18,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/vendor.css') }}" rel="stylesheet" >
 </head>
 <body class="pb-5">
 <div id="app">
