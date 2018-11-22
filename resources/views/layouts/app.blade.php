@@ -19,6 +19,12 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/vendor.css') }}" rel="stylesheet" >
+    <script>
+        window.App = {!! json_encode([
+                'signedIn' => auth()->check(),
+                'user' => auth()->user()
+        ]) !!};
+    </script>
 </head>
 <body class="pb-5">
 <div id="app">
