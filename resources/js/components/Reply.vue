@@ -2,11 +2,11 @@
     <div :id="'reply-'+ id" class="card my-3">
         <div class="card-header">
             <div class="d-flex flex-grow-1 justify-content-between">
-                <h5>
+                <span>
                     <a :href="'/profiles/' + data.owner.name"
                        v-text="data.owner.name">
-                    </a> said {{ data.created_at}}...
-                </h5>
+                    </a> said <span v-text="ago"></span>
+                </span>
                 <div v-if="signedIn">
                     <favorite :reply="data"></favorite>
                 </div>
@@ -22,22 +22,21 @@
             </div>
             <div v-else v-text="body"></div>
         </div>
-        <!--@can('update',$reply)-->
         <div class="card-footer d-flex" v-if="canUpdate">
             <button class="btn btn-primary btn-sm mr-2" @click="editing = true">Edit</button>
             <button class="btn btn-danger btn-sm mr-2" @click="destroy">Delete</button>
         </div>
-        <!--@endcan-->
     </div>
 </template>
 
 <script>
     import Favorite from './Favorite.vue';
+    import moment from 'moment';
 
     export default {
         props: ['data'],
 
-        components: {Favorite},
+        components: { Favorite },
 
         data() {
             return {
@@ -48,6 +47,9 @@
         },
 
         computed: {
+            ago(){
+                return moment.utc(this.data.created_at).fromNow() + '...';
+            },
             signedIn() {
                 return window.App.signedIn;
             },

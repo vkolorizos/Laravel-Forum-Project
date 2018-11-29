@@ -39,7 +39,7 @@ class ThreadTest extends TestCase
     {
         $thread = create('App\Thread');
 
-        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->thread->replies);
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $thread->replies);
     }
 
 	/** @test */
