@@ -22,6 +22,9 @@
 	Route::patch('replies/{reply}', 'ReplyController@update');
 	Route::delete('replies/{reply}', 'ReplyController@destroy');
 
+	Route::post('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionController@store');
+	Route::delete('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionController@destroy');
+
 	Route::post('/replies/{reply}/favorites', 'FavoriteController@store');
 	Route::delete('/replies/{reply}/favorites', 'FavoriteController@destroy');
 
