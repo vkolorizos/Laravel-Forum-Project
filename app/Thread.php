@@ -85,7 +85,17 @@ class Thread extends Model
 	 */
 	public function addReply($reply)
 	{
-		return $this->replies()->create($reply);
+		$reply = $this->replies()->create($reply);
+
+		//Prepare notifications for all subscribers
+
+		$this->subscriptions
+			->filter(function($sub) use ($reply){
+				return $sub->user_id != $reply->user_id;
+			})
+			->each->notify($reply);
+
+		return $reply;
 	}
 
 	/**
@@ -100,13 +110,22 @@ class Thread extends Model
 		return $filters->apply($query);
 	}
 
+	/**
+	 * @param null $userId
+	 * @return $this
+	 */
 	public function subscribe($userId = null)
 	{
 		$this->subscriptions()->create([
 			'user_id' => $userId ?: auth()->id()
 		]);
+
+		return $this;
 	}
 
+	/**
+	 * @param null $userId
+	 */
 	public function unsubscribe($userId = null)
 	{
 		$this->subscriptions()
@@ -114,11 +133,17 @@ class Thread extends Model
 			->delete();
 	}
 
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
 	public function subscriptions()
 	{
 		return $this->hasMany(ThreadSubscription::class);
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function getIsSubscribedToAttribute()
 	{
 		return $this->subscriptions()

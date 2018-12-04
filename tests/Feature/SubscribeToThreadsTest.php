@@ -20,14 +20,7 @@ class SubscribeToThreadsTest extends TestCase
 		// and the user subscribes to the thread...
 		$this->post($thread->path() . '/subscriptions');
 
-		// Then, each time a new reply is left...
-		$thread->addReply([
-			'user_id' => auth()->id(),
-			'body' => 'Some reply here'
-		]);
-		$this->assertCount(1, $thread->subscriptions);
-		// A notification should be prepared for the user.
-//		$this->assertCount(1, auth()->user()->notifications);
+		$this->assertCount(1, $thread->fresh()->subscriptions);
 
 	}
 
