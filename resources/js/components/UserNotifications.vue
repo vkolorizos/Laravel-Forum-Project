@@ -4,7 +4,6 @@
             <span class="fa fa-bell"></span>
         </a>
         <div class="dropdown-menu dropdown-menu-right">
-            <p v-show="!notifications.length">You dont' have any new notification.</p>
             <div v-if="notifications.length">
                 <a :href="notification.data.link" class="dropdown-item"
                    v-for="notification in notifications"
@@ -12,6 +11,7 @@
                    @click="markAsRead(notification)">
                 </a>
             </div>
+            <div v-else>You don't have any new notifications.</div>
         </div>
     </li>
 </template>

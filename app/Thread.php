@@ -78,7 +78,7 @@ class Thread extends Model
 	}
 
 	/**
-	 *  Add a reply to the thread.
+	 * Add a reply to a thread.
 	 *
 	 * @param $reply
 	 * @return Model
@@ -87,15 +87,22 @@ class Thread extends Model
 	{
 		$reply = $this->replies()->create($reply);
 
-		//Prepare notifications for all subscribers
-
-		$this->subscriptions
-			->filter(function($sub) use ($reply){
-				return $sub->user_id != $reply->user_id;
-			})
-			->each->notify($reply);
+		$this->notifySubscribers($reply);
 
 		return $reply;
+	}
+
+	/**
+	 * Notifies all users subscribed to the thread
+	 *
+	 * @param $reply
+	 */
+	public function notifySubscribers($reply): void
+	{
+		$this->subscriptions
+			->where('user_id', '!=', $reply->user_id)
+			->each
+			->notify($reply);
 	}
 
 	/**
@@ -150,4 +157,5 @@ class Thread extends Model
 			->where('user_id', auth()->id())
 			->exists();
 	}
+
 }
